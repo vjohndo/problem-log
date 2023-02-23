@@ -99,8 +99,6 @@ class MyLinkedListNOPREV:
         
         current = self.findNodeAtIndex(index - 1)
         current.next = self.Node(val, current.next)
-        if current is self.tail:
-            self.tail = current.next
         self.length += 1
         
     def deleteAtIndex(self, index: int) -> None:
