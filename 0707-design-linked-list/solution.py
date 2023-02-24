@@ -81,7 +81,7 @@ class MyLinkedListNOPREV:
     def addAtHead(self, val: int) -> None:
         newNode = self.Node(val, self.head.next)
         self.head.next = newNode
-        if self.head is self.tail:
+        if self.head is self.tail: # SUPER IMPORTANT. DON'T FORGET
             self.tail = newNode
         self.length += 1
 
