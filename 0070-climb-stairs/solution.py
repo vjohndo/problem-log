@@ -1,3 +1,34 @@
+class SolutionFibonacciMethod:
+    def climbStairs(self, n: int) -> int:
+        return self.climbStairsHelper(n)[0]
+
+    def climbStairsHelper(self, n):
+        if n <= 3: 
+            return [n, max(n-1, 0)]
+        a, b = self.climbStairsHelper(n - 1)
+        return [a + b, a]
+
+class SolutionRefactorred:
+    def climbStairs(self, n: int) -> int:
+        calculated = {}
+        self.climbStairsHelper(n, calculated)
+        return calculated[n]
+
+    def climbStairsHelper(self, n, calculated):
+        if n <= 3: 
+            calculated[n] = n
+            return n
+
+        if calculated.get(n):
+            return calculated[n]
+
+        left = self.climbStairsHelper(n - 1, calculated)
+        right = self.climbStairsHelper(n - 2, calculated)
+
+        calculated[n] = left + right
+
+        return calculated[n]
+
 class SolutionMemoisationWithDictionary:
     def climbStairs(self, n: int) -> int:
         calculated = {}
