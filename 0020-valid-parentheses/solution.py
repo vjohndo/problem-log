@@ -1,3 +1,28 @@
+class SolutionRevision(object):
+    def isValid(self, s):        
+        matching_parentheses = {
+            "}" : "{",
+            ")" : "(",
+            "]" : "["
+        }
+
+        stack = []
+
+        for char in s:
+            if char not in matching_parentheses:
+                stack.append(char)
+                continue
+            
+            if len(stack) <= 0:
+                return False
+
+            if matching_parentheses[char] == stack[-1]:
+                stack.pop()
+            else:
+                return False
+
+        return len(stack) <= 0
+
 class Solution:
     def isValidOG(self, s: str) -> bool:
         string_stack = []
