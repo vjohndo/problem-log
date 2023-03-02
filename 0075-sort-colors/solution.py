@@ -12,7 +12,7 @@ class Solution(object):
 
         k = 0
         for num in range(0, len(colors)):
-            for i in range(0, colors[num]):
+            for _ in range(0, colors[num]):
                 nums[k] = num
                 k += 1
         
