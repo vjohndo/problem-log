@@ -1,4 +1,25 @@
-class SolutionIterative(object):
+class Solution(object):
+    def inorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        result, stack = [], []
+
+        current = root
+
+        while current or stack:
+            while current is not None:
+                stack.append(current)
+                current = current.left
+
+            current = stack.pop()
+            result.append(current.val)
+            current = current.right
+
+        return result
+
+class SolutionIterativeHacky(object):
     def inorderTraversal(self, root):
         """
         :type root: TreeNode
