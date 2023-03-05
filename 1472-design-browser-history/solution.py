@@ -1,4 +1,4 @@
-class BrowserHistoryDOUBLYLINKEDLIST:
+class BrowserHistoryDOUBLYLINKEDLISTONLYDUMMYHEAD:
     class Node: 
         def __init__(self, val = None, prev = None, next = None):
             self.val = val
@@ -25,6 +25,34 @@ class BrowserHistoryDOUBLYLINKEDLIST:
             self.tail = self.tail.next
             steps -= 1
         return self.tail.val
+
+
+class BrowserHistorySingleArrayRefactored:
+    def __init__(self, homepage: str):
+        self._arr = [homepage]
+        self._curr = 0
+        self._cap = 0
+
+    def visit(self, url: str) -> None:
+        self._curr += 1
+        self._cap = self._curr
+        if self._curr == len(self._arr):
+            self._arr.append(url)
+        else:
+            self._arr[self._curr] = url
+        
+    def back(self, steps: int) -> str:
+        self._curr -= steps
+        if self._curr < 0:
+            self._curr = 0
+        return self._arr[self._curr]
+        
+
+    def forward(self, steps: int) -> str:
+        self._curr += steps
+        if self._curr > self._cap:
+            self._curr = self._cap
+        return self._arr[self._curr]
 
 class BrowserHistorySINGLEARRAYNOLOOPS:
     def __init__(self, homepage: str):
