@@ -1,3 +1,33 @@
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        # Regular sort but using len(arr) - k as the target
+
+        def quickSelect(nums: List[int], s: int, e: int, k: int):
+            if e - s + 1 <= 1:
+                return nums[e]
+
+            rand_int = random.randint(s, e)
+            nums[rand_int], nums[e] = nums[e], nums[rand_int]
+
+            pivot = nums[e]
+            left = s
+
+            for i in range(s, e):
+                if nums[i] < pivot:
+                    nums[left], nums[i] = nums[i], nums[left]
+                    left += 1
+
+            nums[left], nums[e] = nums[e], nums[left]
+
+            if len(nums) - k > left:
+                return quickSelect(nums, left + 1, e, k)
+            elif len(nums) - k < left:
+                return quickSelect(nums, s, left - 1, k)
+            else:
+                return nums[left]
+
+        return quickSelect(nums, 0, len(nums) - 1, k)
+
 class SolutionRefactoredQuickSelect(object):
     def findKthLargest(self, nums, k):
         """
