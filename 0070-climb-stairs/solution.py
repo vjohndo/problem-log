@@ -1,3 +1,13 @@
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        return self.climbStairsHelper(n)[0]
+
+    def climbStairsHelper(self, n):
+        if n <= 3: 
+            return [n, 2] # Actually [n, n-1] is better. If n is > 3, it will just take [3, 2] and never need to go deeper. If n = 2, 1, 0. Only the first value will be accessed. Hence [n, n-1] is totally fine.
+        a, b = self.climbStairsHelper(n - 1)
+        return [a + b, a]
+
 class SolutionFibonacciMethod:
     def climbStairs(self, n: int) -> int:
         return self.climbStairsHelper(n)[0]
