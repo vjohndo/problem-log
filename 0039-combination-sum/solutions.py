@@ -7,6 +7,27 @@ class Solution:
                 res.append(path.copy())
                 return
             
+            if total > target: # Doesn't require to check the i value as we rely on the for loop to handle
+                return
+
+            for j in range(i, len(candidates)):
+                path.append(candidates[j])
+                dfs(j, path, total + candidates[j])
+                path.pop()
+
+        dfs(0, [], 0)
+
+        return res
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+
+        def dfs(i, path, total):
+            if total == target:
+                res.append(path.copy())
+                return
+            
             if total > target or i >= len(candidates):
                 return
 
