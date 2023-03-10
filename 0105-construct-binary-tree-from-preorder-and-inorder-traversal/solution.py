@@ -1,3 +1,26 @@
+class Solution(object):
+    def buildTree(self, preorder, inorder):
+        
+        inorder_index_map = {}
+        for index, value in enumerate(inorder):
+            inorder_index_map[value] = index 
+
+        preorder = preorder[::-1]
+
+        def dfs(left, right):
+            if left > right:
+                return None
+
+            root = TreeNode(preorder.pop())
+            root_index = inorder_index_map[root.val]
+
+            root.left = dfs(left, root_index - 1)
+            root.right = dfs(root_index + 1, right)
+
+            return root
+
+        return dfs(0, len(inorder) - 1)
+
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
 
@@ -24,6 +47,24 @@ class Solution:
             return root
 
         return array_to_tree(0, len(preorder) - 1) 
+
+class Solution(object):
+    def buildTree(self, preorder, inorder):
+        """
+        :type preorder: List[int]
+        :type inorder: List[int]
+        :rtype: TreeNode
+        """
+        if not preorder:
+            return None
+
+        root = TreeNode(preorder[0])
+        root_index = inorder.index(root.val)
+        
+        root.left = self.buildTree(preorder[1:root_index+1], inorder[:root_index])
+        root.right = self.buildTree(preorder[root_index+1:], inorder[root_index + 1:])
+
+        return root
 
 class SolutionNCApproach(object):
     def buildTree(self, preorder, inorder):

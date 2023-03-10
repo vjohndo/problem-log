@@ -1,3 +1,25 @@
+class SolutionPython3GlobalVariables:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        res = root.val
+        seen = 0
+
+        def dfs(root):
+            nonlocal res
+            nonlocal seen
+
+            if root is None:
+                return
+
+            dfs(root.left)
+            seen += 1
+            if seen == k:
+                res = root.val
+            else:
+                dfs(root.right)
+        
+        dfs(root)
+        return res
+
 class Solution(object):
     def kthSmallest(self, root, k):
         """
