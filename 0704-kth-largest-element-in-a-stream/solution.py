@@ -1,4 +1,49 @@
-class KthLargest(object):
+class KthLargestRecursive(object):
+
+    def __init__(self, k, nums):
+        """
+        :type k: int
+        :type nums: List[int]
+        """
+        self.k = k
+        self.heap = [0]
+        for num in nums:
+            self.add(num)
+        
+    def add(self, val):
+        """
+        :type val: int
+        :rtype: int
+        """        
+        if len(self.heap) - 1 < self.k:
+
+            self.heap.append(val)
+            i = len(self.heap) - 1
+            self.upheap(i)
+
+        elif val > self.heap[1]:
+            self.heap[1] = val
+            self.downheap(1)
+
+        return self.heap[1]
+    
+    def upheap(self, j):
+        if j > 1 and self.heap[j] < self.heap[j // 2]:
+            self.heap[j], self.heap[j // 2] = self.heap[j // 2], self.heap[j]
+            self.upheap(j // 2)
+    
+    def downheap(self, j):
+        if j * 2 >= len(self.heap):
+            return
+
+        if j * 2 + 1 < len(self.heap) and self.heap[j * 2 + 1] < self.heap[j * 2] and self.heap[j * 2 + 1] < self.heap[j]:
+            self.heap[j], self.heap[j * 2 + 1] = self.heap[j * 2 + 1], self.heap[j]
+            self.downheap(j * 2 + 1)
+        elif self.heap[j * 2] < self.heap[j]:
+            self.heap[j], self.heap[j * 2] = self.heap[j * 2], self.heap[j]
+            self.downheap(j * 2)
+
+class KthLargestIterative(object):
 
     def __init__(self, k, nums):
         """
