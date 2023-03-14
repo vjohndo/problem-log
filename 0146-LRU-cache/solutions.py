@@ -1,3 +1,67 @@
+class LRUCacheDummyNodes(object):
+
+    class Node:
+        def __init__(self, key, val, prev = None, next = None):
+            self.key = key
+            self.val = val
+            self.prev = prev
+            self.next = next
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.cap = capacity
+        self.cache = {}
+        self.head = self.Node(0, 0)
+        self.tail = self.Node(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def removeNode(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        return node
+
+    def addNode(self, node):
+        node.next = self.tail
+        node.prev = self.tail.prev
+        self.tail.prev.next = node
+        self.tail.prev = node
+
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key in self.cache:
+            self.removeNode(self.cache[key])
+            self.addNode(self.cache[key])
+            return self.cache[key].val
+
+        return -1
+        
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        if key in self.cache:
+            current_node = self.removeNode(self.cache[key])
+            current_node.val = value
+            self.addNode(current_node)
+            return
+        
+        if len(self.cache) == self.cap:
+            deleted_node = self.removeNode(self.head.next)
+            del self.cache[deleted_node.key]
+        
+        new_node = self.Node(key, value)
+        self.addNode(new_node)
+        self.cache[key] = new_node
+
+
 class LRUCache(object):
 
     class Node:
