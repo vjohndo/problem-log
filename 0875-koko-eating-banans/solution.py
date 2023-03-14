@@ -1,3 +1,28 @@
+class SolutionRefactored(object):
+    def minEatingSpeed(self, piles, h):
+
+        def isEnoughTime(piles, h, k):
+            total_visits = 0
+
+            for bananas in piles:
+                total_visits += - (bananas // -k)
+
+            return total_visits <= h
+
+        left = 1
+        right = max(piles)
+        k = right
+
+        while left <= right:
+            mid = (left + right) // 2
+            if isEnoughTime(piles, h, mid):
+                k = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        
+        return k
+
 class Solution(object):
     def minEatingSpeed(self, piles, h):
         """
