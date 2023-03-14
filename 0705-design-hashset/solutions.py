@@ -102,7 +102,7 @@ class MyHashSetBST(object):
             
             return bst(self.root, val)
 
-class MyHashSetLinkedListApproach(object):
+class MyHashSetLinkedListApproachAndRehashing(object):
  
     def __init__(self):
         self.capacity = 2
@@ -264,7 +264,7 @@ class MyHashSetQuadraticProbingDoublingResizeTooSlow(object):
             hash_value = (hash_value + i ** i) % self.capacity
             i += 1
     
-    def hash_function(self, key):
+    def hash_function(self, key): # Don't use this in submissions
         total = 0
         for c in str(key):
             total += ord(c)
