@@ -22,7 +22,6 @@ class MyHashMapBST(object):
         node = bucket.get(key)
         
         if node:
-            print(node.key, node.val)
             return node.val
         
         return -1
@@ -122,7 +121,7 @@ class MyHashMapOpenAddressing(object):
 
     def __init__(self):
         self.capacity = 2
-        self.set = [None, None]
+        self.map = [None, None]
         self.size = 0
         
 
@@ -135,15 +134,15 @@ class MyHashMapOpenAddressing(object):
         hash_value = self.hash(key)
         i = 1
         while True:
-            if self.set[hash_value] is None:
-                self.set[hash_value] = self.Pair(key, value)
+            if self.map[hash_value] is None:
+                self.map[hash_value] = self.Pair(key, value)
                 self.size += 1
                 if self.size >= self.capacity // 2:
                     self.rehash()
                 return
 
-            if self.set[hash_value].key == key:
-                self.set[hash_value].val = value
+            if self.map[hash_value].key == key:
+                self.map[hash_value].val = value
                 return
 
             hash_value = (hash_value + i ** i) % self.capacity
@@ -158,11 +157,11 @@ class MyHashMapOpenAddressing(object):
         hash_value = self.hash(key)
         i = 1
         while True:
-            if self.set[hash_value] is None:
+            if self.map[hash_value] is None:
                 return -1
             
-            if self.set[hash_value].key == key:
-                return self.set[hash_value].val
+            if self.map[hash_value].key == key:
+                return self.map[hash_value].val
 
             hash_value = (hash_value + i ** i) % self.capacity
             i += 1
@@ -176,11 +175,11 @@ class MyHashMapOpenAddressing(object):
         hash_value = self.hash(key)
         i = 1
         while True:
-            if self.set[hash_value] is None:
+            if self.map[hash_value] is None:
                 return
             
-            if self.set[hash_value].key == key:
-                self.set[hash_value].val = -1
+            if self.map[hash_value].key == key:
+                self.map[hash_value].val = -1
                 return
             
             hash_value = (hash_value + i ** i) % self.capacity
@@ -193,8 +192,8 @@ class MyHashMapOpenAddressing(object):
         self.capacity *= 2
         new_list = [None] * self.capacity
         self.size = 0
-        old_list = self.set
-        self.set = new_list
+        old_list = self.map
+        self.map = new_list
 
         for pair in old_list:
             if pair and pair.key != -1:
