@@ -1,1 +1,2 @@
-Notes on past problems
+Notes on past problems. 
+Revisiting them using spaced repetition.
