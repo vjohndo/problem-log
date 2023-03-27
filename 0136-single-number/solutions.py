@@ -4,14 +4,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        hash_table = {}
 
-        my_set = set()
-
-        for num in nums:
-            if num not in my_set:
-                my_set.add(num)
-
-            if num in my_set:
-                my_set.remove(num)
+        for i in nums:
+            if i in hash_table:
+                hash_table[i] += 1
+            else:
+                hash_table[i] = 1
         
-        return my_set[0]
+        for i in hash_table:
+            if hash_table[i] == 1:
+                return i
