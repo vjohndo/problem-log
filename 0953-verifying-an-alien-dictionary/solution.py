@@ -18,7 +18,7 @@ class SolutionFirstAttempt(object):
                 if alphabet_map[a[i]] < alphabet_map[b[i]]:
                     return -1
                 
-                if alphabet_map[a[i]] < alphabet_map[b[i]]:
+                if alphabet_map[a[i]] > alphabet_map[b[i]]:
                     return 1
 
                 i += 1
@@ -31,7 +31,6 @@ class SolutionFirstAttempt(object):
                 return 1
 
         for i in range(1, len(words)):
-            
             if compare(words[i-1], words[i]) > 0:
                 return False
 
