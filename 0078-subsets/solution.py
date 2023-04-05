@@ -41,23 +41,6 @@ class Solution:
         findsubsets(0)
         return res
 
-class SolutionOGUnin:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-
-        res = []
-        path = []
-
-        def findsubsets(i):
-            res.append(path[:])
-            while i < len(nums):
-                path.append(nums[i])
-                i += 1
-                findsubsets(i)
-                path.pop()
-                
-        findsubsets(0)
-        return res
-
 class SolutionAddOnlyOnRightTraversal(object):
     def subsets(self, nums):
         """

@@ -1,3 +1,24 @@
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        res = []
+        
+        def dfs(i, target, path):            
+            if target < 0:
+                return
+
+            if target == 0:
+                res.append(list(path))
+                return
+
+            for j in range(i, len(candidates)):
+                path.append(candidates[j])
+                dfs(j, target - candidates[j], path)
+                path.pop()
+
+        dfs(0, target, [])
+        
+        return res
+
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = []
