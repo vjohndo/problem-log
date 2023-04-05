@@ -1,4 +1,26 @@
-class Solution(object):
+class SolutionBinaryTreeDFS(object):
+    def combinationSum(self, candidates, target):
+        res = []
+        
+        def dfs(i, path, target):
+            if i >= len(candidates) or target < 0:
+                return
+            
+            if target == 0:
+                res.append(list(path))
+                return
+
+            path.append(candidates[i])
+            dfs(i, path, target - candidates[i])
+            
+            path.pop()
+            dfs(i + 1, path, target)       
+
+        dfs(0, [], target)
+        
+        return res
+
+class SolutionGeneralTreeDFS(object):
     def combinationSum(self, candidates, target):
         res = []
         
