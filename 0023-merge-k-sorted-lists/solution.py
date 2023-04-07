@@ -1,3 +1,33 @@
+class SolutionRefactored(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        res = ListNode()
+
+        for right in lists:
+            left = res.next
+            res = ListNode()
+            tail = res
+
+            while left and right:
+                if left.val <= right.val:
+                    tail.next = left
+                    left = left.next
+                else:
+                    tail.next = right
+                    right = right.next
+                tail = tail.next
+            
+            if left:
+                tail.next = left
+            else:
+                tail.next = right
+            
+        return res.next
+
+
 class Solution(object):
     def mergeKLists(self, lists):
         """
