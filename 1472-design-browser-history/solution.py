@@ -26,7 +26,6 @@ class BrowserHistoryDOUBLYLINKEDLISTONLYDUMMYHEAD:
             steps -= 1
         return self.tail.val
 
-
 class BrowserHistorySingleArrayRefactored:
     def __init__(self, homepage: str):
         self._arr = [homepage]
