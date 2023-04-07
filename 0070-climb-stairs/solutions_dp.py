@@ -18,6 +18,16 @@ def climbStairs(self, n):
         
         return dp(n)
 
+class SolutionImprovedTextbookApproach(object):
+    def climbStairs(self, n):
+        def helper(n):
+            if n <= 3:
+                return [n-1,n]
+            a, b = helper(n - 1)
+            return [b, a + b]
+        
+        return helper(n)[1]
+
 class Solution(object):
     def climbStairs(self, n):
         """
@@ -36,4 +46,4 @@ class Solution(object):
             return cache[n]
         
         return dp(n, {})
-    
+
