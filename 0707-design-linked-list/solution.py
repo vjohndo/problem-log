@@ -118,7 +118,6 @@ class MyLinkedListNOPREV:
             index -= 1
         return current
     
-
 class MyLinkedListIMPROVED:
 
     class Node:
