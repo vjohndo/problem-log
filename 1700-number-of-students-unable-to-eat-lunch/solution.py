@@ -1,3 +1,43 @@
+class SolutionFastestPossible(object):
+    def countStudents(self, students, sandwiches):
+        square_students = 0
+        circle_students = 0
+        for i in students:
+            if i == 1:
+                square_students += 1
+            else:
+                circle_students += 1
+
+        for i in sandwiches:
+            if i == 1:
+                if square_students == 0:
+                    break 
+                square_students -= 1
+            else:
+                if circle_students == 0:
+                    break 
+                circle_students -= 1
+        
+        return circle_students + square_students
+
+class SolutionProperModelling:
+    def countStudents(self, students, sandwiches):
+
+        q = collections.deque(students)
+
+        for i in sandwiches:
+            student = q[0] # Peek at the next student
+            count = 0 # Number of students I've seen so far
+            while student != i:
+                if count >= len(q):
+                    return len(q) # If I've seen every student, return the number of students
+                q.append(q.popleft()) # Otherwise, move this student to back of line
+                student = q[0] # Set the student to be the next in line so I can check if they're a match
+                count += 1 # Increase the students I've seen
+            q.popleft() # If I'm here satisfied.
+
+        return 0
+
 class SolutionNoDSARefactored:
     def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
         
@@ -12,6 +52,7 @@ class SolutionNoDSARefactored:
             else:   
                 circle_student -= 1   
 
+            # Optimisation would be to include the check inside each if statement rather than checking OR
             if square_student < 0 or circle_student < 0:
                 return n - i
                 
