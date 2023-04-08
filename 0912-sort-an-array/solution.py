@@ -1,4 +1,36 @@
-class SolutionQuickSort(object):
+class SolutionQuickSortWhileLoopLeftRightPointer(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        def quickSort(s, e):
+            
+            if e - s + 1 <= 1:
+                return
+
+            p = nums[e]
+            l = s
+            r = e
+
+            while l < r:
+                if nums[l] >= p:
+                    r -= 1
+                    nums[l], nums[r] = nums[r], nums[l]
+                else:
+                    l += 1
+            
+            nums[l], nums[e] = nums[e], nums[l]
+
+            quickSort(s, l-1)
+            quickSort(l + 1, e)
+        
+        quickSort(0, len(nums) - 1)
+
+        return nums
+                
+
+class SolutionQuickSortForLoopSlowFastsPointer(object):
     def sortArray(self, nums):
         """
         :type nums: List[int]
