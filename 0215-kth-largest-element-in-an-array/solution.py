@@ -1,3 +1,38 @@
+class SolutionRandomPivotRandomPartition(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        
+        def quickSelect(s, e):
+            if (e - s + 1) <= 1:
+                return nums[s]
+            
+            rand = random.randint(s,e)
+            nums[e], nums[rand] = nums[rand], nums[e]
+
+            slow = s
+            for fast in range(s, e):
+                if nums[fast] > nums[e]:
+                    nums[fast], nums[slow] = nums[slow], nums[fast]
+                    slow += 1
+                elif nums[fast] == nums[e] and random.random() >= 0.5:
+                    nums[fast], nums[slow] = nums[slow], nums[fast]
+                    slow += 1
+            
+            nums[slow], nums[e] = nums[e], nums[slow]
+
+            if slow + 1 > k:
+                return quickSelect(s, slow - 1)
+            elif slow + 1 < k:
+                return quickSelect(slow + 1, e)
+            else:
+                return nums[slow]
+        
+        return quickSelect(0, len(nums) - 1)
+
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         # Regular sort but using len(arr) - k as the target
