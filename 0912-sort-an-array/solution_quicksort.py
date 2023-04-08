@@ -1,3 +1,36 @@
+class SolutionHandlesSameNumAndOrdered(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        def quickSort(s, e):
+            
+            if e - s + 1 <= 1:
+                return
+
+            random_index = random.randint(s, e)
+            nums[e], nums[random_index] = nums[random_index], nums[e]
+            p = nums[e]
+            slow = s
+    
+            for fast in range(s, e):
+                if nums[fast] < p:
+                    nums[slow], nums[fast] = nums[fast], nums[slow]
+                    slow += 1
+                elif nums[fast] == p and random.random() >= 0.5:
+                    nums[slow], nums[fast] = nums[fast], nums[slow]
+                    slow += 1
+
+            nums[slow], nums[e] = nums[e], nums[slow]
+
+            quickSort(s, slow-1)
+            quickSort(slow + 1, e)
+        
+        quickSort(0, len(nums) - 1)
+
+        return nums
+
 class SolutionQuickSortWhileLoopLeftRightPointer(object):
     def sortArray(self, nums):
         """
@@ -28,7 +61,6 @@ class SolutionQuickSortWhileLoopLeftRightPointer(object):
         quickSort(0, len(nums) - 1)
 
         return nums
-                
 
 class SolutionQuickSortForLoopSlowFastsPointer(object):
     def sortArray(self, nums):
@@ -59,65 +91,5 @@ class SolutionQuickSortForLoopSlowFastsPointer(object):
 
         self.quickSort(nums, s, left - 1)
         self.quickSort(nums, left + 1, e)
-
-        return nums
-    
-class SolutionMergeSort:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        print([0, 1][1:1])
-        self.mergeSort(nums, 0, len(nums) - 1)
-        return nums
-
-    def mergeSort(self, nums, start, end):
-        print(nums[start:end+1])
-        if  end - start + 1 <= 1:
-            return nums
-
-        middle = start + (end - start) // 2
-        self.mergeSort(nums, start, middle)
-        self.mergeSort(nums, middle + 1, end)
-
-        self.merge(nums, start, middle, end)
-
-        return nums
-
-    def merge(self, nums, start, middle, end):
-        i = 0
-        j = 0
-        k = start
-
-        left = nums[start:middle+1]
-        right = nums[middle+1:end + 1]
-
-        while i < len(left) and j < len(right):
-            if left[i] <= right[j]:
-                nums[k] = left[i]
-                i += 1
-                k += 1
-            else:
-                nums[k] = right[j]
-                j += 1
-                k += 1
-        
-        while i < len(left):
-            nums[k] = left[i]
-            i += 1
-            k += 1
-
-        while j < len(right):
-            nums[k] = right[j]
-            j += 1
-            k += 1
-
-
-class SolutionInsertionSort:
-    def sortArray(self, nums: List[int]) -> List[int]:
-
-        for i in range(1, len(nums)):
-            j = i - 1
-
-            while j >= 0 and nums[j + 1] < nums[j]:
-                nums[j + 1], nums[j] = nums[j], nums[j + 1]
-                j -= 1
 
         return nums
