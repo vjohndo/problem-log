@@ -22,6 +22,31 @@ class SolutionRefactored(object):
                 left = mid + 1
         
         return k
+    
+class SolutionFurtherAlternateRefactoring(object):
+    def minEatingSpeed(self, piles, h):
+        """
+        :type piles: List[int]
+        :type h: int
+        :rtype: int
+        """
+        
+        def canEat(k):
+            visits = [-(pile // -k) for pile in piles]
+            return sum(visits) <= h
+        
+        l, r = 1, max(piles)
+        
+        min_k = r
+        while l <= r:
+            mid = (l + r) // 2
+            if canEat(mid):
+                min_k = mid
+                r = mid - 1
+            else:
+                l = mid + 1
+        
+        return min_k
 
 class Solution(object):
     def minEatingSpeed(self, piles, h):
