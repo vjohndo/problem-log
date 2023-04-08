@@ -6,8 +6,7 @@ class SolutionNoFunctions(object):
         :rtype: bool
         """
 
-        top = 0
-        bot = len(matrix) - 1
+        top, bot = 0, len(matrix) - 1
 
         while top <= bot:
             mid = (top + bot) // 2
@@ -22,8 +21,7 @@ class SolutionNoFunctions(object):
             return False
 
         row = matrix[(top + bot) // 2] # Remember that we actually want the mid value. Top and bot don't represent a single cell
-        left = 0
-        right = len(row) - 1
+        left, right = 0, len(row) - 1
 
         while left <= right:
             mid = (left + right) // 2
