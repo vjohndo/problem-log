@@ -83,6 +83,29 @@ class MyHashMapBST(object):
 
         def remove(self, key):
             
+            # def remove_helper(root, key):
+            #     if root is None:
+            #         return root
+                
+            #     if root.key < key:
+            #         root.right = remove_helper(root.right, key)
+            #     elif root.key > key:
+            #         root.left = remove_helper(root.left, key)
+            #     else:
+            #         if root.left is None:
+            #             return root.right
+            #         elif root.right is None:
+            #             return root.left
+            #         else:
+            #             min_node = root.right
+            #             while min_node is not None and min_node.left is not None:
+            #                 min_node = min_node.left
+            #             root.key = min_node.key
+            #             root.val = min_node.val
+            #             root.right = remove_helper(root.right, min_node.key)
+                
+            #     return root
+
             def get_min(root):
                 current = root
                 while current and current.left:
@@ -111,6 +134,92 @@ class MyHashMapBST(object):
                 return root
             
             self.root = remove_helper(self.root, key)
+
+class MyHashMapBugFixed(object):
+
+    class Pair:
+        def __init__(self, key, val):
+            self.key = key
+            self.val = val
+
+    def __init__(self):
+        self.capacity = 2
+        self.map = [None, None]
+        self.size = 0
+
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        hash_value = self.hash(key)
+        i = 1
+        while True:
+            if self.map[hash_value] is None:
+                self.map[hash_value] = self.Pair(key, value)
+                self.size += 1
+                if self.size >= self.capacity // 2:
+                    self.rehash()
+                return
+
+            if self.map[hash_value].key == key:
+                self.map[hash_value].val = value
+                return
+
+            hash_value = (hash_value + i ** i) % self.capacity
+            i += 1
+        
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        hash_value = self.hash(key)
+        i = 1
+        while True:
+            if self.map[hash_value] is None:
+                return -1
+            
+            if self.map[hash_value].key == key:
+                return self.map[hash_value].val
+
+            hash_value = (hash_value + i ** i) % self.capacity
+            i += 1
+        
+
+    def remove(self, key):
+        """
+        :type key: int
+        :rtype: None
+        """
+        hash_value = self.hash(key)
+        i = 1
+        while True:
+            if self.map[hash_value] is None:
+                return
+            
+            if self.map[hash_value].key == key:
+                self.map[hash_value].val = -1 # Intentially using pair.val as changing pair.key seems to result in infinite loop while open addressing
+                return
+            
+            hash_value = (hash_value + i ** i) % self.capacity
+            i += 1
+    
+    def hash(self, key):
+        return key % self.capacity
+    
+    def rehash(self):
+        self.capacity *= 2
+        new_arr = [None] * self.capacity
+        
+        old_arr = self.map
+        self.map = new_arr
+        self.size = 0
+
+        for pair in old_arr:
+            if pair and pair.val != -1: # Intentially using pair.val as changing pair.key seems to result in infinite loop
+                self.put(pair.key, pair.val)
 
 class MyHashMapOpenAddressing(object):
 
@@ -179,7 +288,7 @@ class MyHashMapOpenAddressing(object):
                 return
             
             if self.map[hash_value].key == key:
-                self.map[hash_value].val = -1
+                self.map[hash_value].val = -1 # WHY IS THIS WORKING?
                 return
             
             hash_value = (hash_value + i ** i) % self.capacity
@@ -196,5 +305,5 @@ class MyHashMapOpenAddressing(object):
         self.map = new_list
 
         for pair in old_list:
-            if pair and pair.key != -1:
+            if pair and pair.val != -1:
                 self.put(pair.key, pair.val)
