@@ -16,6 +16,76 @@ class KthLargestUsingInBuiltClass(object):
         
         return self.heap[0]
 
+class KthLargestImplementedHeap(object):
+
+    class Heap:
+        def __init__(self):
+            self.arr = [None]
+
+        def top(self):
+            if self.length() == 0:
+                return None
+
+            return self.arr[1]
+
+        def length(self):
+            return len(self.arr) - 1
+
+        def push(self, val):
+            self.arr.append(val)
+            i = len(self.arr) - 1
+            while i > 1 and self.arr[i] < self.arr[i // 2]:
+                self.arr[i // 2], self.arr[i] = self.arr[i], self.arr[i // 2]
+                i = i // 2
+        
+        def pop(self):
+            if len(self.arr) == 1:
+                return None
+            
+            if len(self.arr) == 2:
+                return self.arr.pop()
+
+            res = self.arr[1]
+            self.arr[1] = self.arr.pop()    
+            i = 1
+
+            while 2 * i < len(self.arr):
+                if (2 * i + 1 < len(self.arr) and
+                self.arr[2 * i + 1] < self.arr[2 * i] and
+                self.arr[i] > self.arr[2 * i + 1]):
+                    self.arr[2 * i + 1], self.arr[i] = self.arr[i], self.arr[2 * i + 1]
+                    i = 2 * i + 1
+                elif (self.arr[i] > self.arr[2 * i]):
+                    self.arr[2 * i], self.arr[i] = self.arr[i], self.arr[2 * i]
+                    i = 2 * i
+                else:
+                    break
+            
+            return res
+
+    def __init__(self, k, nums):
+        """
+        :type k: int
+        :type nums: List[int]
+        """
+        self.heap = self.Heap()
+        self.k = k
+        for num in nums:
+            self.add(num)
+
+    def add(self, val):
+        """
+        :type val: int
+        :rtype: int
+        """
+        if self.heap.length() < self.k:
+            self.heap.push(val)
+        elif val > self.heap.top():
+            self.heap.push(val)
+            self.heap.pop()
+            
+        return self.heap.top()
+
 class KthLargestHeapified(object):
     def __init__(self, k, nums):
         """
