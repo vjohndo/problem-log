@@ -16,7 +16,7 @@ class KthLargestUsingInBuiltClass(object):
         
         return self.heap[0]
 
-class KthLargestImplementedHeap(object):
+class KthLargestPureHeapImplementation(object):
 
     class Heap:
         def __init__(self):
@@ -47,8 +47,10 @@ class KthLargestImplementedHeap(object):
 
             res = self.arr[1]
             self.arr[1] = self.arr.pop()    
-            i = 1
-
+            self.percolate_down(1)
+            return res
+        
+        def percolate_down(self, i):
             while 2 * i < len(self.arr):
                 if (2 * i + 1 < len(self.arr) and
                 self.arr[2 * i + 1] < self.arr[2 * i] and
@@ -60,8 +62,16 @@ class KthLargestImplementedHeap(object):
                     i = 2 * i
                 else:
                     break
-            
-            return res
+        
+        def heapify(self, input_arr):
+            input_arr.append(input_arr[0])
+            self.arr = input_arr
+
+            current = (len(self.arr) - 1) // 2
+            while current >= 1:
+                self.percolate_down(current)
+                current -= 1
+
 
     def __init__(self, k, nums):
         """
@@ -70,8 +80,9 @@ class KthLargestImplementedHeap(object):
         """
         self.heap = self.Heap()
         self.k = k
-        for num in nums:
-            self.add(num)
+        self.heap.heapify(nums)
+        while self.heap.length() > self.k:
+            self.heap.pop()
 
     def add(self, val):
         """
