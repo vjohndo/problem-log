@@ -1,3 +1,41 @@
+class Solution(object):
+    def shortestPathBinaryMatrix(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        
+        rows = len(grid)
+        cols = len(grid[0])
+        q = collections.deque()
+        visit = set()
+
+        if grid[0][0] != 1:
+            q.append((0, 0))
+            visit.add((0, 0))
+ 
+        shortest_path = 0
+        while len(q) > 0:
+            shortest_path += 1
+            for _ in range(len(q)):
+                r, c = q.popleft()
+                if r == rows - 1 and c == cols - 1:
+                    return shortest_path
+                
+                for dr, dc in [(1, 0), (1, 1), (1, -1), (0, 1), (0, -1), (-1, 0), (-1, 1), (-1, -1)]:
+                    r_new, c_new = r + dr, c + dc
+                    if (min(r_new, c_new) < 0 or
+                    r_new >= rows or
+                    c_new >= cols or
+                    (r_new, c_new) in visit or
+                    grid[r_new][c_new] == 1):
+                        continue
+                    
+                    q.append((r_new, c_new))
+                    visit.add((r_new, c_new))
+
+        return -1
+
 class SolutionFullyPreprocessing(object):
     def shortestPathBinaryMatrix(self, grid):
         """
