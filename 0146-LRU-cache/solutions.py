@@ -1,3 +1,64 @@
+class LRUCache(object):
+    
+    class Node:
+        def __init__(self, key = None, val = None, prev = None, next = None):
+            self.key = key
+            self.val = val
+            self.prev = prev
+            self.next = next
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.cap = capacity
+        self.map = {}
+        self.head = self.Node()
+        self.tail = self.Node()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key not in self.map:
+            return -1
+        self._cache(key)
+        return self.map[key].val
+
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        if key in self.map:
+            self.map[key].val = value
+            self._cache(key)
+            return
+
+        if len(self.map) == self.cap:
+            delete_node = self.head.next
+            del self.map[delete_node.key]
+            self.head.next = self.head.next.next
+            self.head.next.prev = self.head
+
+        new_node = self.Node(key, value, self.tail.prev, self.tail)
+        self.tail.prev.next = new_node
+        self.tail.prev = new_node
+        self.map[key] = new_node
+
+    def _cache(self, key):
+        node = self.map[key]
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        node.prev = self.tail.prev
+        node.next = self.tail
+        self.tail.prev.next = node
+        self.tail.prev = node
+
 class LRUCacheDummyNodes(object):
 
     class Node:
