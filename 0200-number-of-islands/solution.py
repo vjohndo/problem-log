@@ -1,3 +1,38 @@
+class SolutionRefactored(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        
+        visited = set()
+        rows = len(grid)
+        cols = len(grid[0])
+
+
+        def explore(r, c):
+            if (min(r, c) < 0 or 
+            r >= rows or 
+            c >= cols or 
+            (r, c) in visited or 
+            grid[r][c] == "0"): # It's a string
+                return False
+            
+            visited.add((r, c))
+
+            for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                explore(r + dr, c + dc)
+
+            return True
+
+        islands = 0
+        for r in range(rows):
+            for c in range(cols):
+                if explore(r, c):
+                    islands += 1
+
+        return islands
+
 class Solution(object):
     def numIslands(self, grid):
         """
