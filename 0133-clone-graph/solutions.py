@@ -1,3 +1,26 @@
+class SolutionRefactored(object):
+    def cloneGraph(self, node):
+        """
+        :type node: Node
+        :rtype: Node
+        """
+        def clone(node, cloned):
+            if node is None:
+                return None
+
+            cloned[node] = Node(node.val)
+
+            for nei in node.neighbors:
+                if nei not in cloned:
+                    clone(nei, cloned)
+                
+                cloned[node].neighbors.append(cloned[nei])
+            
+            return cloned[node]
+        
+        return clone(node, {})
+                    
+
 class SolutionBlindNC(object):
     def cloneGraph(self, node):
         """
@@ -22,6 +45,43 @@ class SolutionBlindNC(object):
                 
         return clone(node)
 
+
+class SolutionBlindRevision(object):
+    def cloneGraph(self, node):
+        """
+        :type node: Node
+        :rtype: Node
+        """
+        if node is None:
+            return node
+
+        cloned = {}
+        visit = set()
+
+        def dfs(node):
+            if node is None:
+                return
+
+            if node in visit:
+                return
+            
+            if node.val not in cloned:
+                cloned[node.val] = Node(node.val)
+            
+            for neighbor in node.neighbors:
+                if neighbor.val not in cloned:
+                    cloned[neighbor.val] = Node(neighbor.val)
+
+                cloned[node.val].neighbors.append(cloned[neighbor.val])
+
+            visit.add(node)
+
+            for neighbor in node.neighbors:
+                dfs(neighbor)
+
+        dfs(node)
+
+        return cloned[node.val]
 
 class SolutionNC(object):
     def cloneGraph(self, node):
