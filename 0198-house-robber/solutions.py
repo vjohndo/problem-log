@@ -44,7 +44,7 @@ class SolutionSimplifiedTopDown(object):
         
         return dp(0)
 
-class SolutioTopDownRefactored(object):    
+class SolutioTreeTraversal(object):    
     def rob(self, nums):
         """
         :type nums: List[int]
