@@ -8,6 +8,34 @@ class Solution(object):
         left = 0
         right = len(needle) - 1
 
+        def compare(k):
+            j = 0
+            while j < len(needle):
+                if needle[j] != haystack[k]:
+                    return False
+                j += 1
+                k += 1    
+            return True
+
+        while right < len(haystack):
+            if compare(left):
+                return left
+            left += 1
+            right += 1
+        
+        return -1
+            
+
+class Solution(object):
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        left = 0
+        right = len(needle) - 1
+
         while right < len(haystack):
             j = 0
             k = left
