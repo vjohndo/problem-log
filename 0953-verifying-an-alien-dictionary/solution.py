@@ -1,3 +1,34 @@
+class SolutionRefactored(object):
+    def isAlienSorted(self, words, order):
+        """
+        :type words: List[str]
+        :type order: str
+        :rtype: bool
+        """
+        
+        char_map = { char : index for index, char in enumerate(order) }
+
+        def isCorrectOrder(a, b):
+            i = 0
+
+            while i < len(a) and i < len(b):
+                if a[i] < b[i]:
+                    return True
+                if a[i] > b[i]:
+                    return False
+                i += 1
+
+            if len(a) > len(b):
+                return False
+
+            return True 
+
+        for i in range(1, len(words)):
+            if not isCorrectOrder(words[i - 1], words[i]):
+                return False
+        
+        return True
+
 class SolutionFirstAttempt(object):
     def isAlienSorted(self, words, order):
         """
