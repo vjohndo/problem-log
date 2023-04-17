@@ -34,9 +34,6 @@ class SolutionSimplifiedTopDown(object):
         def dp(i):
             if i >= len(nums):
                 return 0
-            
-            if i == len(nums) - 1:
-                return nums[i]
 
             if i in cache:
                 return cache[i]
