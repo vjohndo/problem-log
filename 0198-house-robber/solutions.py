@@ -22,6 +22,31 @@ class SolutionDP(object):
 
         return dp[1]
 
+class SolutionSimplifiedTopDown(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        cache = {}
+
+        def dp(i):
+            if i >= len(nums):
+                return 0
+            
+            if i == len(nums) - 1:
+                return nums[i]
+
+            if i in cache:
+                return cache[i]
+            
+            cache[i] = max(nums[i] + dp(i + 2), dp(i + 1))
+
+            return cache[i]
+        
+        return dp(0)
+
 class SolutioTopDownRefactored(object):    
     def rob(self, nums):
         """
