@@ -68,7 +68,10 @@ class SolutionRevisedBFS(object):
                     continue
                 
                 q.append(nei)
-        
+                dep[nei] -= 1 
+                # Didn't include the -= 1 originally but algo still works due to the way the nodes are linked. (Naturally rejects circular references)
+                # Results in ALOT of handing 1 and repeated code
+
         return numCourses <= 0
 
 class SolutionFailedToReadNumCoursesDuringRevision(object):
