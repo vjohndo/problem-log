@@ -1,3 +1,29 @@
+class Solution(object):
+    def longestCommonSubsequence(self, text1, text2):
+        """
+        :type text1: str
+        :type text2: str
+        :rtype: int
+        """
+        
+        cache = [ [ None for _ in range(len(text2)) ] for _ in range(len(text1)) ]
+
+        def lcs(p1, p2):
+            if p1 >= len(text1) or p2 >= len(text2):
+                return 0
+            
+            if cache[p1][p2] is not None:
+                return cache[p1][p2] 
+
+            if text1[p1] == text2[p2]:
+                cache[p1][p2] = 1 + lcs(p1 + 1, p2 + 1)
+            else:
+                cache[p1][p2] = max(lcs(p1 + 1, p2), lcs(p1, p2 + 1))
+            
+            return cache[p1][p2]
+        
+        return lcs(0, 0)
+    
 class SolutionRefactored(object):
     def uniquePathsWithObstacles(self, obstacleGrid):
         """
