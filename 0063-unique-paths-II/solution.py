@@ -1,3 +1,123 @@
+class SolutionSingleArray(object):
+    def longestCommonSubsequence(self, text1, text2):
+        """
+        :type text1: str
+        :type text2: str
+        :rtype: int
+        """
+        
+        m, n = len(text1), len(text2)
+        res = [0 for _ in range(n)]
+        dp = 0
+
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                temp = 0
+                if j + 1 < n:
+                    temp = dp
+                
+                dp = res[j]
+                
+                if text1[i] == text2[j]:
+                    res[j] = 1 + temp
+                elif j + 1 < n:
+                    res[j] = max(res[j], res[j + 1])
+
+        return res[0]
+
+class SolutionTwoArrayRecycled(object):
+    def longestCommonSubsequence(self, text1, text2):
+        """
+        :type text1: str
+        :type text2: str
+        :rtype: int
+        """
+        
+        m, n = len(text1), len(text2)
+        prev = [0 for _ in range(n)]
+        current = [0 for _ in range(n)]
+
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                if text1[i] == text2[j]:
+                    current[j] = 1
+                    if j + 1 < n:
+                        current[j] += prev[j + 1]
+                else:
+                    current[j] = prev[j]
+                    if j + 1 < n:
+                        current[j] = max(current[j], current[j + 1]) 
+            prev, current = current, prev
+    
+        return prev[0]
+
+class SolutionTwoArrayRefactored(object):
+    def longestCommonSubsequence(self, text1, text2):
+        """
+        :type text1: str
+        :type text2: str
+        :rtype: int
+        """
+        
+        m, n = len(text1), len(text2)
+        prev = [0 for _ in range(n)]
+
+        for i in range(m - 1, -1, -1):
+            current = [0 for _ in range(n)]
+            
+            for j in range(n - 1, -1, -1):
+                if text1[i] == text2[j]:
+                    current[j] = 1
+                    if j + 1 < n:
+                        current[j] += prev[j + 1]
+                else:
+                    current[j] = prev[j]
+                    if j + 1 < n:
+                        current[j] = max(current[j], current[j + 1]) 
+            prev = current
+    
+        return prev[0]
+
+class Solution(object):
+    def longestCommonSubsequence(self, text1, text2):
+        """
+        :type text1: str
+        :type text2: str
+        :rtype: int
+        """
+        
+        m, n = len(text1), len(text2) #5, #3
+
+        prev = [0 for _ in range(n)] #[0, 0, 0]
+
+        res = []
+
+        for i in range(m - 1, -1, -1):
+            current = [0 for _ in range(n)] #[0, 0, 1]
+            
+            for j in range(n - 1, -1, -1):
+                # if m >= len(text1) or n >= len(text2):
+                #     current[j] = 0
+
+                # i = 4, j = 1
+                
+                if text1[i] == text2[j]: # e == c
+                    current[j] = 1 #[0, 0, 1]
+                    if j + 1 < n:
+                        current[j] += prev[j + 1]
+                else:
+                    current[j] = prev[j] #[0, 0, 1]
+                    if j + 1 < n:
+                        current[j] = max(current[j], current[j + 1])  #[0, 1, 1]
+
+            prev = current
+            res.append(list(prev))
+    
+        for l in res[::-1]:
+            print(l)
+
+        return prev[0]
+
 class Solution(object):
     def longestCommonSubsequence(self, text1, text2):
         """
